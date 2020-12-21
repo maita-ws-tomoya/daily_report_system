@@ -28,10 +28,10 @@ public class Follow {
     private Integer id;
 
     @Column(name = "follow", length = 255, nullable = false)
-    private String follow;
+    private Integer follow;
 
     @Column(name = "followed", length = 255, nullable = false)
-    private String followed;
+    private Integer followed;
 
     public Integer getId() {
         return id;
@@ -41,20 +41,20 @@ public class Follow {
         this.id = id;
     }
 
-    public String getFollow() {
+    public Integer getFollow() {
         return follow;
     }
 
-    public void setFollow(String follow) {
+    public void setFollow(Integer follow) {
         this.follow = follow;
     }
 
-    public String getFollowed() {
+    public Integer getFollowed() {
         return followed;
     }
 
-    public void setFollowed(String followed) {
-        this.follow = followed;
+    public void setFollowed(Integer followed) {
+        this.followed = followed;
     }
 
 }

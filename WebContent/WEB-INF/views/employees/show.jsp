@@ -41,6 +41,20 @@
                     </tbody>
                 </table>
 
+                <p><a href="#" onclick="confirmFollow();">この従業員をフォローする</a></p>
+                <form method="POST" action="${pageContext.request.contextPath}/follow/create">
+                    <input type="hidden" name="_token" value="${_token}" />
+                </form>
+                <script>
+                    function confirmFollow() {
+                        if(confirm("本当にフォローしてよろしいですか？")) {
+                            document.forms[0].submit();
+                        }
+                    }
+                </script>
+
+
+
                 <p><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員情報を編集する</a></p>
             </c:when>
             <c:otherwise>
