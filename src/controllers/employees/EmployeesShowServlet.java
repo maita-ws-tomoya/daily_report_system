@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Follow;
 import utils.DBUtil;
 
 /**
@@ -35,9 +36,23 @@ public class EmployeesShowServlet extends HttpServlet {
 
 
         Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));
+        Employee login_e = (Employee)request.getSession().getAttribute("login_employee");
+
+        Follow f = (Follow)em.createNamedQuery("getFollowRelation", Follow.class)
+                .setParameter("login_employee",login_e.getId())
+                .setParameter("employee", e.getId())
+                .getSingleResult();
 
         em.close();
 
+
+        Integer follow_flag = 0;
+        if(f.getId() != null ){
+            follow_flag =1;
+        }
+
+
+        request.getSession().setAttribute("follow_flag", follow_flag);
         request.getSession().setAttribute("employee", e);
         request.setAttribute("_token", request.getSession().getId());
 

@@ -19,6 +19,10 @@ import javax.persistence.Table;
         name = "getFollowsCount",
         query = "SELECT COUNT(f) FROM Follow AS f"
     ),
+    @NamedQuery(
+        name = "getFollowRelation",
+        query = "SELECT f FROM Follow AS f WHERE f.follow = :login_employee AND f.followed = :employee"
+    )
 })
 @Entity
 public class Follow {
