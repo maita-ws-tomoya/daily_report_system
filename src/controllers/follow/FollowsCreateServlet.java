@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Follow;
 import utils.DBUtil;
 
@@ -37,11 +38,11 @@ public class FollowsCreateServlet extends HttpServlet {
 
             Follow f = new Follow();
 
-            request.getSession().getAttribute("login_employee");
+            Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
+            Employee employee = (Employee)request.getSession().getAttribute("employee");
 
-            f.setFollow(request.getSession().getAttribute("login_employee"));
-
-            f.setFollowed(request.getSession().getAttribute("employee"));
+            f.setFollow(login_employee.getId());
+            f.setFollowed(employee.getId());
 
             em.getTransaction().begin();
             em.persist(f);
@@ -49,7 +50,7 @@ public class FollowsCreateServlet extends HttpServlet {
             em.close();
             request.getSession().setAttribute("flush", "フォローしました。");
 
-            response.sendRedirect(request.getContextPath() + "/employees/show");
+            response.sendRedirect(request.getContextPath() + "/employees/index");
         }
     }
 
