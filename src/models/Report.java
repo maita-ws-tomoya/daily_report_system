@@ -32,6 +32,10 @@ import javax.persistence.Table;
         @NamedQuery(
             name = "getMyReportsCount",
             query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee = :employee"
+        ),
+        @NamedQuery(
+            name = "getAllFollowsReports",
+            query = "SELECT r FROM Report AS r WHERE r.employee.id in (SELECT f.followed FROM Follow As f) ORDER BY r.id DESC"
         )
 })
 @Entity
@@ -40,6 +44,9 @@ public class Report {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    //以下の部分で、reportsテーブルにemployeeテーブルが紐づけている
+    //紐づけの値は紐づけ先の主キーが使用される
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
