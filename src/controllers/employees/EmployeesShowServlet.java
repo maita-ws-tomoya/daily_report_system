@@ -38,18 +38,19 @@ public class EmployeesShowServlet extends HttpServlet {
         Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));
         Employee login_e = (Employee)request.getSession().getAttribute("login_employee");
 
-        Follow f = (Follow)em.createNamedQuery("getFollowRelation", Follow.class)
-                .setParameter("login_employee",login_e.getId())
-                .setParameter("employee", e.getId())
-                .getSingleResult();
+        Integer follow_flag = 1;
+
+        Follow f;
+        try {
+            f = (Follow) em.createNamedQuery("getFollowRelation", Follow.class)
+                    .setParameter("login_employee", login_e.getId())
+                    .setParameter("employee", e.getId())
+                    .getSingleResult();
+        } catch (Exception e2) {
+            follow_flag =0;
+        }
 
         em.close();
-
-
-        Integer follow_flag = 0;
-        if(f.getId() != null ){
-            follow_flag =1;
-        }
 
 
         request.getSession().setAttribute("follow_flag", follow_flag);
