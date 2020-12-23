@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import models.Employee;
 import models.Report;
 import utils.DBUtil;
 
@@ -41,10 +42,25 @@ public class ReportsIndexServlet extends HttpServlet {
             page = 1;
         }
 
-        List<Report> reports = em.createNamedQuery("getAllFollowsReports", Report.class)
+        Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
+
+        List<Report> reports;
+
+        if(login_employee.getAdmin_flag()==1){
+
+        reports = em.createNamedQuery("getAllFollowsReports", Report.class)
+                                  .setParameter("login_employee", login_employee.getId())
                                   .setFirstResult(15 * (page - 1))
                                   .setMaxResults(15)
                                   .getResultList();
+        }else{
+
+        reports = em.createNamedQuery("getAllReports", Report.class)
+                                  .setFirstResult(15 * (page - 1))
+                                  .setMaxResults(15)
+                                  .getResultList();
+
+        }
 
         long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
                                      .getSingleResult();
@@ -54,6 +70,7 @@ public class ReportsIndexServlet extends HttpServlet {
         request.setAttribute("reports", reports);
         request.setAttribute("reports_count", reports_count);
         request.setAttribute("page", page);
+
         if(request.getSession().getAttribute("flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("flush"));
             request.getSession().removeAttribute("flush");
