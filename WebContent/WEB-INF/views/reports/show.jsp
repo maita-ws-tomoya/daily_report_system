@@ -38,6 +38,45 @@
                     </tbody>
                 </table>
 
+
+
+                <c:choose>
+                <c:when test = "${good_flag ==0}">
+
+                    <p><a href="#" onclick="confirmFollow();">いいね！する</a></p>
+                    <form method="POST" action="${pageContext.request.contextPath}/good/create">
+                        <input type="hidden" name="_token" value="${_token}" />
+                    </form>
+
+                    <script>
+                        function confirmFollow() {
+                            if(confirm("本当に「いいね！」してよろしいですか？")) {
+                                document.forms[0].submit();
+                            }
+                        }
+                    </script>
+
+                </c:when>
+
+                <c:otherwise>
+
+                <p><a href="#" onclick="confirmFollow();">いいね！を解除する</a></p>
+                <form method="POST" action="${pageContext.request.contextPath}/good/destroy">
+                    <input type="hidden" name="_token" value="${_token}" />
+                </form>
+                <script>
+                    function confirmFollow() {
+                        if(confirm("本当に「いいね！」を解除してよろしいですか？")) {
+                            document.forms[0].submit();
+                        }
+                    }
+                </script>
+
+                </c:otherwise>
+                </c:choose>
+
+
+
                 <c:if test="${sessionScope.login_employee.id == report.employee.id}">
                     <p><a href="<c:url value="/reports/edit?id=${report.id}" />">この日報を編集する</a></p>
                 </c:if>

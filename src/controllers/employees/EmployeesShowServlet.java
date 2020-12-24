@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
-import models.Follow;
 import utils.DBUtil;
 
 /**
@@ -40,13 +39,12 @@ public class EmployeesShowServlet extends HttpServlet {
 
         Integer follow_flag = 1;
 
-        Follow f;
-        try {
-            f = (Follow) em.createNamedQuery("getFollowRelation", Follow.class)
-                    .setParameter("login_employee", login_e.getId())
-                    .setParameter("employee", e.getId())
-                    .getSingleResult();
-        } catch (Exception e2) {
+        long follow_count = (long)em.createNamedQuery("getFollowsCount", Long.class)
+                                        .setParameter("login_employee",login_e.getId())
+                                        .setParameter("employee", e.getId())
+                                        .getSingleResult();
+
+        if(follow_count==0){
             follow_flag =0;
         }
 
