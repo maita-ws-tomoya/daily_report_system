@@ -43,7 +43,7 @@
                 <c:choose>
                 <c:when test = "${good_flag ==0}">
 
-                    <p><a href="#" onclick="confirmFollow();">いいね！する</a></p>
+                    <p><a href="#" onclick="confirmFollow();">いいね！する<img src="${pageContext.request.contextPath}/WebContent/WEB-INF/image/heart_off.png" alt="透明のハート">${good_all_count}</a></p>
                     <form method="POST" action="${pageContext.request.contextPath}/good/create">
                         <input type="hidden" name="_token" value="${_token}" />
                     </form>
@@ -60,7 +60,7 @@
 
                 <c:otherwise>
 
-                <p><a href="#" onclick="confirmFollow();">いいね！を解除する</a></p>
+                <p><a href="#" onclick="confirmFollow();">いいね！を解除する<img src="${pageContext.request.contextPath}/WebContent/WEB-INF/image/heart_on.png" alt="ピンクのハート">${good_all_count}</a></p>
                 <form method="POST" action="${pageContext.request.contextPath}/good/destroy">
                     <input type="hidden" name="_token" value="${_token}" />
                 </form>

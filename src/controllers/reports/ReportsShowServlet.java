@@ -44,12 +44,17 @@ public class ReportsShowServlet extends HttpServlet {
                 .setParameter("report_id", r.getId())
                 .getSingleResult();
 
+        long good_all_count = (long)em.createNamedQuery("getAllGoodsCount", Long.class)
+                .setParameter("report_id", r.getId())
+                .getSingleResult();
+
         if(good_count==0){
         good_flag =0;
         }
 
         em.close();
 
+        request.getSession().setAttribute("good_all_count", good_all_count);
         request.getSession().setAttribute("good_flag", good_flag);
         request.getSession().setAttribute("report", r);
         request.setAttribute("_token", request.getSession().getId());

@@ -23,6 +23,10 @@ import javax.persistence.Table;
         query = "SELECT COUNT(g) FROM Good AS g WHERE g.do_good = :login_employee AND g.report.id = :report_id"
         ),
     @NamedQuery(
+            name = "getAllGoodsCount",
+            query = "SELECT COUNT(g) FROM Good AS g WHERE g.report.id = :report_id"
+            ),
+    @NamedQuery(
         name = "getGoods",
         query = "SELECT g FROM Good AS g WHERE g.do_good = :login_employee AND g.report.id = :report_id"
         )
