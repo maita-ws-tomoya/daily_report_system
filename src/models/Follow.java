@@ -20,6 +20,10 @@ import javax.persistence.Table;
         query = "SELECT COUNT(f) FROM Follow AS f WHERE f.follow = :login_employee AND f.followed = :employee"
     ),
     @NamedQuery(
+            name = "getAllFollowsCount",
+            query = "SELECT COUNT(f) FROM Follow AS f WHERE f.follow = :login_employee"
+        ),
+    @NamedQuery(
         name = "getFollowRelation",
         query = "SELECT f FROM Follow AS f WHERE f.follow = :login_employee AND f.followed = :employee"
     ),

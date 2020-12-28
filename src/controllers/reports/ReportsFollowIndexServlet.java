@@ -1,4 +1,4 @@
-package controllers.follow;
+package controllers.reports;
 
 import java.io.IOException;
 import java.util.List;
@@ -12,19 +12,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import models.Employee;
+import models.Report;
 import utils.DBUtil;
 
 /**
- * Servlet implementation class EmployeesIndexServlet
+ * Servlet implementation class ReportsIndexServlet
  */
-@WebServlet("/follows/index")
-public class FollowsIndexServlet extends HttpServlet {
+@WebServlet("/reports/follow/index")
+public class ReportsFollowIndexServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public FollowsIndexServlet() {
+    public ReportsFollowIndexServlet() {
         super();
     }
 
@@ -34,38 +35,41 @@ public class FollowsIndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         EntityManager em = DBUtil.createEntityManager();
 
+        Employee e = em.find(Employee.class, Integer.parseInt(request.getParameter("id")));
         Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
 
-        int page = 1;
+        int page;
         try{
             page = Integer.parseInt(request.getParameter("page"));
-        } catch(NumberFormatException e) { }
-
-
-        long follows_count = (long)em.createNamedQuery("getAllFollowsCount", Long.class)
-                                       .setParameter("login_employee",login_employee.getId())
-                                       .getSingleResult();
-
-        List<Employee> follows = null;
-
-        if(follows_count != 0){
-            follows = em.createNamedQuery("getAllFollowsEmployees",Employee.class)
-                    .setParameter("login_employee",login_employee.getId())
-                    .setFirstResult(15 * (page - 1))
-                    .setMaxResults(15)
-                    .getResultList();
+        } catch(Exception e2) {
+            page = 1;
         }
+
+        List<Report> reports;
+
+        reports = em.createNamedQuery("getAllFollowsReports", Report.class)
+                                  .setParameter("login_employee", login_employee.getId())
+                                  .setParameter("employee", e.getId())
+                                  .setFirstResult(15 * (page - 1))
+                                  .setMaxResults(15)
+                                  .getResultList();
+
+        long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
+                                  .getSingleResult();
 
         em.close();
 
-        request.getSession().setAttribute("follows", follows);
+        request.setAttribute("reports", reports);
+        request.setAttribute("reports_count", reports_count);
         request.setAttribute("page", page);
+
         if(request.getSession().getAttribute("flush") != null) {
             request.setAttribute("flush", request.getSession().getAttribute("flush"));
             request.getSession().removeAttribute("flush");
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/follows/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/index.jsp");
         rd.forward(request, response);
     }
+
 }
