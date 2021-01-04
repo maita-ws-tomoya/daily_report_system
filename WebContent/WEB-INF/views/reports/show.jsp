@@ -39,17 +39,16 @@
                 </table>
 
 
-
                 <c:choose>
                 <c:when test = "${good_flag ==0}">
 
-                    <p><a href="#" onclick="confirmFollow();">いいね！する<img src="${pageContext.request.contextPath}/WebContent/WEB-INF/image/heart_off.png" alt="透明のハート">${good_all_count}</a></p>
+                    <p><a href="#" onclick="confirmGood();">いいね！する　<i class="far fa-heart" style="color:pink;"></i>　${good_all_count}</a></p>
                     <form method="POST" action="${pageContext.request.contextPath}/good/create">
                         <input type="hidden" name="_token" value="${_token}" />
                     </form>
 
                     <script>
-                        function confirmFollow() {
+                        function confirmGood() {
                             if(confirm("本当に「いいね！」してよろしいですか？")) {
                                 document.forms[0].submit();
                             }
@@ -60,12 +59,12 @@
 
                 <c:otherwise>
 
-                <p><a href="#" onclick="confirmFollow();">いいね！を解除する<img src="${pageContext.request.contextPath}/WebContent/WEB-INF/image/heart_on.png" alt="ピンクのハート">${good_all_count}</a></p>
+                <p><a href="#" onclick="confirmGoodOut();">いいね！を解除する　<i class="fas fa-heart" style="color:pink;"></i>　${good_all_count}</a></p>
                 <form method="POST" action="${pageContext.request.contextPath}/good/destroy">
                     <input type="hidden" name="_token" value="${_token}" />
                 </form>
                 <script>
-                    function confirmFollow() {
+                    function confirmGoodOut() {
                         if(confirm("本当に「いいね！」を解除してよろしいですか？")) {
                             document.forms[0].submit();
                         }
@@ -77,9 +76,48 @@
 
 
 
+
+
+                <c:choose>
+                <c:when test = "${follow_flag ==0}">
+
+                    <p><a href="#" onclick="confirmFollow();">この従業員をフォローする</a></p>
+                    <form method="POST" action="${pageContext.request.contextPath}/follow/create">
+                        <input type="hidden" name="_token" value="${_token}" />
+                    </form>
+
+                    <script>
+                        function confirmFollow() {
+                            if(confirm("本当にフォローしてよろしいですか？")) {
+                                document.forms[1].submit();
+                            }
+                        }
+                    </script>
+
+                </c:when>
+
+                <c:otherwise>
+
+                <p><a href="#" onclick="confirmFollowOut();">この従業員をフォロー解除する</a></p>
+                <form method="POST" action="${pageContext.request.contextPath}/follow/destroy">
+                    <input type="hidden" name="_token" value="${_token}" />
+                </form>
+                <script>
+                    function confirmFollowOut() {
+                        if(confirm("本当にフォロー解除してよろしいですか？")) {
+                            document.forms[1].submit();
+                        }
+                    }
+                </script>
+
+                </c:otherwise>
+                </c:choose>
+
+
                 <c:if test="${sessionScope.login_employee.id == report.employee.id}">
                     <p><a href="<c:url value="/reports/edit?id=${report.id}" />">この日報を編集する</a></p>
                 </c:if>
+
             </c:when>
             <c:otherwise>
                 <h2>お探しのデータは見つかりませんでした。</h2>

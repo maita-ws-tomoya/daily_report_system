@@ -162,3 +162,9 @@ pre {
 h3 {
     font-size: larger;
 }
+
+.fal fa-heart::before {
+    content:'f004';
+    font-family:'Font Awesome 5 Free'
+    font-weight:900;
+}

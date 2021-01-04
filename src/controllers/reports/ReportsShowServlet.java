@@ -38,6 +38,7 @@ public class ReportsShowServlet extends HttpServlet {
         Employee login_e = (Employee)request.getSession().getAttribute("login_employee");
 
         Integer good_flag = 1;
+        Integer follow_flag = 1;
 
         long good_count = (long)em.createNamedQuery("getGoodsCount", Long.class)
                 .setParameter("login_employee",login_e.getId())
@@ -52,8 +53,20 @@ public class ReportsShowServlet extends HttpServlet {
         good_flag =0;
         }
 
+        long follow_count = (long)em.createNamedQuery("getFollowsCount", Long.class)
+                .setParameter("login_employee",login_e.getId())
+                .setParameter("employee", r.getEmployee().getId())
+                .getSingleResult();
+
+        if(follow_count==0){
+            follow_flag =0;
+        }
+
         em.close();
 
+        request.getSession().setAttribute("employee", r.getEmployee());
+        request.getSession().setAttribute("login_employee", login_e);
+        request.getSession().setAttribute("follow_flag", follow_flag);
         request.getSession().setAttribute("good_all_count", good_all_count);
         request.getSession().setAttribute("good_flag", good_flag);
         request.getSession().setAttribute("report", r);
