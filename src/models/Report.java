@@ -40,6 +40,14 @@ import javax.persistence.Table;
         @NamedQuery(
             name = "getAllFollowsReportsCount",
             query = "SELECT COUNT(r) FROM Report AS r WHERE r.employee.id in (SELECT f.followed FROM Follow As f WHERE f.follow = :login_employee AND f.followed = :employee) ORDER BY r.id DESC"
+        ),
+        @NamedQuery(
+            name = "getAllGoodsReports",
+            query = "SELECT r FROM Report AS r WHERE r.id in (SELECT g.report.id FROM Good As g WHERE g.do_good = :login_employee) ORDER BY r.id DESC"
+            ),
+        @NamedQuery(
+            name = "getAllGoodsReportsCount",
+            query = "SELECT COUNT(r) FROM Report AS r WHERE r.id in (SELECT g.report.id FROM Good As g WHERE g.do_good = :login_employee)"
         )
 })
 @Entity

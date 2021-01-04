@@ -10,8 +10,6 @@
         <h2>フォロー従業員　一覧</h2>
         <table id="follow_employee_list">
 
-
-
             <c:choose>
             <c:when test = "${login_employee.admin_flag == 1}">
 
@@ -40,8 +38,6 @@
                     </tr>
                 </c:forEach>
             </tbody>
-
-
 
             </c:when>
 
@@ -78,7 +74,7 @@
                 </c:choose>
             </c:forEach>
         </div>
-        <p><a href="<c:url value='/employees/new' />">新規従業員の登録</a></p>
+
 
     </c:param>
 </c:import>
