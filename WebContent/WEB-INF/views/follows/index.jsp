@@ -30,7 +30,7 @@
                                 </c:otherwise>
                             </c:choose>
                         </td>
-                        <td><a href="<c:url value='/employees/show?id=${follow.id}' />">日報一覧</a></td>
+                        <td><a href="<c:url value='/reports/follow/index?id=${follow.id}' />">日報一覧</a></td>
                     </tr>
                 </c:forEach>
             </tbody>

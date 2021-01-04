@@ -54,11 +54,15 @@ public class ReportsFollowIndexServlet extends HttpServlet {
                                   .setMaxResults(15)
                                   .getResultList();
 
-        long reports_count = (long)em.createNamedQuery("getReportsCount", Long.class)
+        long reports_count = (long)em.createNamedQuery("getAllFollowsReportsCount", Long.class)
+                                  .setParameter("login_employee", login_employee.getId())
+                                  .setParameter("employee", e.getId())
                                   .getSingleResult();
 
         em.close();
 
+        request.setAttribute("employee", e);
+        request.setAttribute("login_employee", login_employee);
         request.setAttribute("reports", reports);
         request.setAttribute("reports_count", reports_count);
         request.setAttribute("page", page);
@@ -68,7 +72,7 @@ public class ReportsFollowIndexServlet extends HttpServlet {
             request.getSession().removeAttribute("flush");
         }
 
-        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/index.jsp");
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/reports/followindex.jsp");
         rd.forward(request, response);
     }
 
