@@ -58,6 +58,7 @@ public class FollowsIndexServlet extends HttpServlet {
 
         em.close();
 
+        request.getSession().setAttribute("follows_count", follows_count);
         request.getSession().setAttribute("follows", follows);
         request.setAttribute("page", page);
         if(request.getSession().getAttribute("flush") != null) {
