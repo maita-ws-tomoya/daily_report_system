@@ -75,9 +75,6 @@
                 </c:choose>
 
 
-
-
-
                 <c:choose>
                 <c:when test = "${follow_flag ==0}">
 
@@ -112,6 +109,11 @@
 
                 </c:otherwise>
                 </c:choose>
+
+
+
+
+
 
 
                 <c:if test="${sessionScope.login_employee.id == report.employee.id}">

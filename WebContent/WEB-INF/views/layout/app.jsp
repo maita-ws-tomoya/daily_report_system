@@ -22,10 +22,14 @@
                         <a href="<c:url value='/follows/index' />"><i class="fas fa-hands-helping"></i> フォロー管理</a>&nbsp;&emsp;&emsp;
                         <a href="<c:url value='/reports/good/index' />"><i class="fas fa-heart"></i> いいね！管理</a>&nbsp;&emsp;&emsp;
                     </c:if>
+
+
+
                 </div>
                 <c:if test="${sessionScope.login_employee != null}">
                     <div id="employee_name">
                         <i class="far fa-user-circle"></i> <c:out value="${sessionScope.login_employee.name}" />&nbsp;さん&nbsp;&nbsp;&nbsp;&emsp;
+                        <i class="fas fa-window-restore"></i><a href="<c:url value='/attendance/index' />"> 出退勤管理</a>&nbsp;&nbsp;&nbsp;&emsp;
                         <i class="fas fa-door-open"></i><a href="<c:url value='/logout' />"> ログアウト</a>
                     </div>
                 </c:if>
