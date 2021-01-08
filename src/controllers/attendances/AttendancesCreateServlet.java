@@ -58,8 +58,13 @@ public class AttendancesCreateServlet extends HttpServlet {
                 em.persist(a);
 
             }else{
+                Attendance a = em.createNamedQuery("getLoginEmployeeAttendancesOutTimeNull",Attendance.class)
+                                            .setParameter("login_employee",login_employee.getId() )
+                                            .getSingleResult();
 
-
+                Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+                a.setOut_time(currentTime);
+                em.getTransaction().begin();
             }
 
             em.getTransaction().commit();

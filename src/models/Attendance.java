@@ -24,6 +24,10 @@ import javax.persistence.Table;
             query = "SELECT COUNT(a) FROM Attendance AS a WHERE a.employee.id = :login_employee"
         ),
     @NamedQuery(
+            name = "getLoginEmployeeAttendancesOutTimeNull",
+            query = "SELECT a FROM Attendance AS a WHERE a.employee.id = :login_employee AND a.out_time = Null"
+        ),
+    @NamedQuery(
             name = "getLoginEmployeeAttendancesOutTimeNullCount",
             query = "SELECT COUNT(a) FROM Attendance AS a WHERE a.employee.id = :login_employee AND a.out_time = Null"
         )
