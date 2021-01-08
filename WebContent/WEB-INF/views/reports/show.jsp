@@ -75,40 +75,43 @@
                 </c:choose>
 
 
-                <c:choose>
-                <c:when test = "${follow_flag ==0}">
 
-                    <p><a href="#" onclick="confirmFollow();">この従業員をフォローする</a></p>
-                    <form method="POST" action="${pageContext.request.contextPath}/follow/create">
+                <c:if test = "${login_employee.id != employee.id}">
+                    <c:choose>
+                    <c:when test = "${follow_flag ==0}">
+
+                        <p><a href="#" onclick="confirmFollow();">この従業員をフォローする</a></p>
+                        <form method="POST" action="${pageContext.request.contextPath}/follow/create">
+                            <input type="hidden" name="_token" value="${_token}" />
+                        </form>
+
+                        <script>
+                            function confirmFollow() {
+                                if(confirm("本当にフォローしてよろしいですか？")) {
+                                    document.forms[1].submit();
+                                }
+                            }
+                        </script>
+
+                    </c:when>
+
+                    <c:otherwise>
+
+                    <p><a href="#" onclick="confirmFollowOut();">この従業員をフォロー解除する</a></p>
+                    <form method="POST" action="${pageContext.request.contextPath}/follow/destroy">
                         <input type="hidden" name="_token" value="${_token}" />
                     </form>
-
                     <script>
-                        function confirmFollow() {
-                            if(confirm("本当にフォローしてよろしいですか？")) {
+                        function confirmFollowOut() {
+                            if(confirm("本当にフォロー解除してよろしいですか？")) {
                                 document.forms[1].submit();
                             }
                         }
                     </script>
 
-                </c:when>
-
-                <c:otherwise>
-
-                <p><a href="#" onclick="confirmFollowOut();">この従業員をフォロー解除する</a></p>
-                <form method="POST" action="${pageContext.request.contextPath}/follow/destroy">
-                    <input type="hidden" name="_token" value="${_token}" />
-                </form>
-                <script>
-                    function confirmFollowOut() {
-                        if(confirm("本当にフォロー解除してよろしいですか？")) {
-                            document.forms[1].submit();
-                        }
-                    }
-                </script>
-
-                </c:otherwise>
-                </c:choose>
+                    </c:otherwise>
+                    </c:choose>
+                </c:if>
 
 
 

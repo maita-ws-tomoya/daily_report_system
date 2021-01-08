@@ -42,42 +42,42 @@
                 </table>
 
 
+                <c:if test = "${login_employee.id != employee.id}">
+                    <c:choose>
+                    <c:when test = "${follow_flag ==0}">
 
-                <c:choose>
-                <c:when test = "${follow_flag ==0}">
+                        <p><a href="#" onclick="confirmFollow();">この従業員をフォローする</a></p>
+                        <form method="POST" action="${pageContext.request.contextPath}/follow/create">
+                            <input type="hidden" name="_token" value="${_token}" />
+                        </form>
 
-                    <p><a href="#" onclick="confirmFollow();">この従業員をフォローする</a></p>
-                    <form method="POST" action="${pageContext.request.contextPath}/follow/create">
+                        <script>
+                            function confirmFollow() {
+                                if(confirm("本当にフォローしてよろしいですか？")) {
+                                    document.forms[0].submit();
+                                }
+                            }
+                        </script>
+
+                    </c:when>
+
+                    <c:otherwise>
+
+                    <p><a href="#" onclick="confirmFollow();">この従業員をフォロー解除する</a></p>
+                    <form method="POST" action="${pageContext.request.contextPath}/follow/destroy">
                         <input type="hidden" name="_token" value="${_token}" />
                     </form>
-
                     <script>
                         function confirmFollow() {
-                            if(confirm("本当にフォローしてよろしいですか？")) {
+                            if(confirm("本当にフォロー解除してよろしいですか？")) {
                                 document.forms[0].submit();
                             }
                         }
                     </script>
 
-                </c:when>
-
-                <c:otherwise>
-
-                <p><a href="#" onclick="confirmFollow();">この従業員をフォロー解除する</a></p>
-                <form method="POST" action="${pageContext.request.contextPath}/follow/destroy">
-                    <input type="hidden" name="_token" value="${_token}" />
-                </form>
-                <script>
-                    function confirmFollow() {
-                        if(confirm("本当にフォロー解除してよろしいですか？")) {
-                            document.forms[0].submit();
-                        }
-                    }
-                </script>
-
-                </c:otherwise>
-                </c:choose>
-
+                    </c:otherwise>
+                    </c:choose>
+                </c:if>
 
                 <p><a href="<c:url value='/employees/edit?id=${employee.id}' />">この従業員情報を編集する</a></p>
             </c:when>
