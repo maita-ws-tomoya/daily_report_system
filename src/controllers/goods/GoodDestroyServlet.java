@@ -53,7 +53,8 @@ public class GoodDestroyServlet extends HttpServlet {
 
             request.getSession().setAttribute("flush", "いいね！を解除しました。");
 
-            response.sendRedirect(request.getContextPath() + "/reports/index");
+//            response.sendRedirect(request.getContextPath() + "/reports/index");
+            response.sendRedirect(request.getContextPath() + "/reports/show");
         }
     }
 

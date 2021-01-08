@@ -50,8 +50,10 @@ public class GoodCreateServlet extends HttpServlet {
             em.getTransaction().commit();
             em.close();
             request.getSession().setAttribute("flush", "いいね！しました。");
+            request.getSession().setAttribute("report", g.getReport());
 
-            response.sendRedirect(request.getContextPath() + "/reports/index");
+            response.sendRedirect(request.getContextPath() + "/reports/show");
+
         }
     }
 
