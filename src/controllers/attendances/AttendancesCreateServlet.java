@@ -35,17 +35,33 @@ public class AttendancesCreateServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String _token = (String)request.getParameter("_token");
         if(_token != null && _token.equals(request.getSession().getId())) {
+
             EntityManager em = DBUtil.createEntityManager();
 
-            Attendance a = new Attendance();
+            Employee login_employee = (Employee)request.getSession().getAttribute("login_employee");
 
-            a.setEmployee((Employee)request.getSession().getAttribute("login_employee"));
 
-            Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-            a.setIn_time(currentTime);
+            long Null_out_time_count = (long)em.createNamedQuery("getLoginEmployeeAttendancesOutTimeNullCount", Long.class)
+                                            .setParameter("login_employee",login_employee.getId() )
+                                            .getSingleResult();
 
-            em.getTransaction().begin();
-            em.persist(a);
+            if(Null_out_time_count == 0){
+
+                Attendance a = new Attendance();
+
+                a.setEmployee(login_employee);
+
+                Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+                a.setIn_time(currentTime);
+
+                em.getTransaction().begin();
+                em.persist(a);
+
+            }else{
+
+
+            }
+
             em.getTransaction().commit();
             em.close();
             request.getSession().setAttribute("flush", "勤怠情報を更新しました。");
