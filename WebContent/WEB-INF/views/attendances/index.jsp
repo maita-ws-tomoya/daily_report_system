@@ -8,7 +8,39 @@
                 <c:out value="${flush}"></c:out>
             </div>
         </c:if>
-        <h2>${login_employee.name}の勤怠情報一覧</h2>
+        <h2>${login_employee.name}の勤怠情報</h2>
+
+        <c:choose>
+            <c:when test="${Null_out_time_count == 0}">
+                <p><a href="#" onclick="confirmA();"><i class="fas fa-clock"></i> 出勤時間を記録する</a></p>
+                <form method="POST" action="${pageContext.request.contextPath}/attendance/create">
+                    <input type="hidden" name="_token" value="${_token}" />
+                </form>
+
+                <script>
+                    function confirmA() {
+                        if(confirm("出勤時間を記録します。よろしいですか？")) {
+                            document.forms[0].submit();
+                        }
+                    }
+                </script>
+            </c:when>
+            <c:otherwise>
+                <p><a href="#" onclick="confirmA();"><i class="fas fa-clock"></i> 退勤時間を記録する</a></p>
+                <form method="POST" action="${pageContext.request.contextPath}/attendance/create">
+                    <input type="hidden" name="_token" value="${_token}" />
+                </form>
+
+                <script>
+                    function confirmA() {
+                        if(confirm("退勤時間を記録します。よろしいですか？")) {
+                            document.forms[0].submit();
+                        }
+                    }
+                </script>
+            </c:otherwise>
+        </c:choose>
+
         <table id="attendance_list">
             <tbody>
                 <tr>
@@ -37,22 +69,6 @@
                 </c:choose>
             </c:forEach>
         </div>
-
-
-        <p><a href="#" onclick="confirmA();">勤怠情報の更新</a></p>
-        <form method="POST" action="${pageContext.request.contextPath}/attendance/create">
-            <input type="hidden" name="_token" value="${_token}" />
-        </form>
-
-        <script>
-            function confirmA() {
-                if(confirm("勤怠情報を更新いたします。よろしいですか？")) {
-                    document.forms[0].submit();
-                }
-            }
-        </script>
-
-
 
     </c:param>
 </c:import>

@@ -56,11 +56,16 @@ public class AttendancesIndexServlet extends HttpServlet {
                                   .setParameter("login_employee",login_employee.getId() )
                                   .getSingleResult();
 
+        long Null_out_time_count = (long)em.createNamedQuery("getLoginEmployeeAttendancesOutTimeNullCount", Long.class)
+                                  .setParameter("login_employee",login_employee.getId() )
+                                  .getSingleResult();
+
         em.close();
 
         request.getSession().setAttribute("login_employee", login_employee);
         request.setAttribute("attendances", attendances);
         request.setAttribute("attendances_count", attendances_count);
+        request.setAttribute("Null_out_time_count", Null_out_time_count);
         request.setAttribute("page", page);
 
         if(request.getSession().getAttribute("flush") != null) {

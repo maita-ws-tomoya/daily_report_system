@@ -57,6 +57,10 @@ public class AttendancesCreateServlet extends HttpServlet {
                 em.getTransaction().begin();
                 em.persist(a);
 
+                em.getTransaction().commit();
+                em.close();
+                request.getSession().setAttribute("flush", "出勤時間を記録しました。");
+                response.sendRedirect(request.getContextPath() + "/attendance/index");
             }else{
                 Attendance a = em.createNamedQuery("getLoginEmployeeAttendancesOutTimeNull",Attendance.class)
                                             .setParameter("login_employee",login_employee.getId() )
@@ -65,12 +69,12 @@ public class AttendancesCreateServlet extends HttpServlet {
                 Timestamp currentTime = new Timestamp(System.currentTimeMillis());
                 a.setOut_time(currentTime);
                 em.getTransaction().begin();
-            }
 
-            em.getTransaction().commit();
-            em.close();
-            request.getSession().setAttribute("flush", "勤怠情報を更新しました。");
-            response.sendRedirect(request.getContextPath() + "/attendance/index");
+                em.getTransaction().commit();
+                em.close();
+                request.getSession().setAttribute("flush", "退勤時間を記録しました。お疲れさまでした。");
+                response.sendRedirect(request.getContextPath() + "/attendance/index");
+            }
         }
     }
 }
